@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Cpu, CloudRain, Mountain, Crosshair, Sparkles, AlertCircle } from 'lucide-react';
+import { Cpu, CloudRain, Mountain, Crosshair, Sparkles, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import RiskSeverityBreakdown from './RiskSeverityBreakdown';
 import RiskSeverityChart from './RiskSeverityChart';
+import WeatherRiskSignal from '../weather/WeatherRiskSignal';
 import Badge from '../common/Badge';
 
 export default function PredictionPanel({ riskZones, onFocusZone, isRefreshing = false }) {
   const [severityFilter, setSeverityFilter] = useState('ALL');
   const [selectedState, setSelectedState] = useState('ALL');
+  const [expandedZoneId, setExpandedZoneId] = useState(null);
 
   const filteredZones = riskZones.filter((zone) => {
     const matchesSeverity = severityFilter === 'ALL' || zone.riskLevel === severityFilter;
@@ -28,9 +30,9 @@ export default function PredictionPanel({ riskZones, onFocusZone, isRefreshing =
               <p className="text-[11px] text-slate-500 dark:text-slate-400">Multi-source satellite, soil moisture & rainfall fusion</p>
             </div>
           </div>
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 flex items-center gap-1">
+          {/* <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 flex items-center gap-1">
             <Sparkles className="w-3 h-3" /> Model v4.2 Live
-          </span>
+          </span> */}
         </div>
 
         {/* Severity Donut & Bar Chart */}

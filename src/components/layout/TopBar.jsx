@@ -61,7 +61,7 @@ export default function TopBar({
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-base font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
-                <span> भूSachet</span>
+                {/* <span> भूSachet</span> */}
                 {/* <span className="text-xs font-semibold text-amber-700 dark:text-amber-400 bg-amber-500/15 border border-amber-500/30 px-1.5 py-0.2 rounded">
                   भू Sachet
                 </span> */}

@@ -8,6 +8,7 @@ import {
   AlertOctagon,
   ChevronLeft,
   ChevronRight,
+  CloudSun,
 } from 'lucide-react';
 
 export default function Sidebar({
@@ -18,6 +19,15 @@ export default function Sidebar({
   badgeCounts = {},
 }) {
   const menuItems = [
+    {
+      id: 'weather',
+      label: 'Weather Intel',
+      hindi: 'मौसम आसूचना',
+      icon: CloudSun,
+      description: 'NER Radar & Hydro Telemetry',
+      badge: 'LIVE',
+      badgeVariant: 'info',
+    },
     {
       id: 'prediction',
       label: 'Prediction',

@@ -8,6 +8,7 @@ import RoadsPanel from '../roads/RoadsPanel';
 import AlertsPanel from '../alerts/AlertsPanel';
 import EmergencyPriorityQueue from '../emergency/EmergencyPriorityQueue';
 import ChatbotWidget from '../chatbot/ChatbotWidget';
+import Weather from '../weather/Weather';
 import { useMapLayers } from '../../hooks/useMapLayers';
 import { useRefreshData } from '../../hooks/useRefreshData';
 import { MOCK_RISK_ZONES } from '../../data/mockRiskZones';
@@ -147,93 +148,102 @@ export default function Shell() {
           }}
         />
 
-        {/* Secondary Contextual Split Drawer / Detail Panel */}
-        {panelOpen && activeTab !== 'mapOnly' && (
-          <div className="absolute inset-y-0 left-16 sm:left-auto sm:relative w-[calc(100vw-4rem)] sm:w-80 md:w-96 lg:w-[420px] h-full z-20 shrink-0 border-r border-slate-200 dark:border-slate-800/90 shadow-2xl relative flex flex-col bg-white dark:bg-slate-950 transition-colors">
-            {/* Context Panel Content based on current sidebar selection */}
-            <div className="flex-1 overflow-hidden relative">
-              {activeTab === 'prediction' && (
-                <PredictionPanel
-                  riskZones={riskZones}
-                  onFocusZone={handleFocusFeature}
-                  isRefreshing={isRefreshing}
-                />
-              )}
-              {activeTab === 'reports' && (
-                <ReportsPanel
-                  reports={reports}
-                  onVerifyReport={handleVerifyReport}
-                  onRejectReport={handleRejectReport}
-                  onFocusReport={handleFocusFeature}
-                  isRefreshing={isRefreshing}
-                />
-              )}
-              {activeTab === 'roads' && (
-                <RoadsPanel
-                  roads={roads}
-                  onFocusRoad={handleFocusFeature}
-                  isRefreshing={isRefreshing}
-                />
-              )}
-              {activeTab === 'alerts' && (
-                <AlertsPanel alerts={alerts} isRefreshing={isRefreshing} />
-              )}
-              {activeTab === 'emergency' && (
-                <EmergencyPriorityQueue
-                  riskZones={riskZones}
-                  onFocusZone={handleFocusFeature}
-                />
-              )}
-            </div>
+        {/* Weather Intelligence Dedicated View */}
+        {activeTab === 'weather' ? (
+          <main className="flex-1 w-full h-full min-w-0 relative overflow-hidden flex flex-col">
+            <Weather />
+          </main>
+        ) : (
+          <>
+            {/* Secondary Contextual Split Drawer / Detail Panel */}
+            {panelOpen && activeTab !== 'mapOnly' && (
+              <div className="absolute inset-y-0 left-16 sm:left-auto sm:relative w-[calc(100vw-4rem)] sm:w-80 md:w-96 lg:w-[420px] h-full z-20 shrink-0 border-r border-slate-200 dark:border-slate-800/90 shadow-2xl relative flex flex-col bg-white dark:bg-slate-950 transition-colors">
+                {/* Context Panel Content based on current sidebar selection */}
+                <div className="flex-1 overflow-hidden relative">
+                  {activeTab === 'prediction' && (
+                    <PredictionPanel
+                      riskZones={riskZones}
+                      onFocusZone={handleFocusFeature}
+                      isRefreshing={isRefreshing}
+                    />
+                  )}
+                  {activeTab === 'reports' && (
+                    <ReportsPanel
+                      reports={reports}
+                      onVerifyReport={handleVerifyReport}
+                      onRejectReport={handleRejectReport}
+                      onFocusReport={handleFocusFeature}
+                      isRefreshing={isRefreshing}
+                    />
+                  )}
+                  {activeTab === 'roads' && (
+                    <RoadsPanel
+                      roads={roads}
+                      onFocusRoad={handleFocusFeature}
+                      isRefreshing={isRefreshing}
+                    />
+                  )}
+                  {activeTab === 'alerts' && (
+                    <AlertsPanel alerts={alerts} isRefreshing={isRefreshing} />
+                  )}
+                  {activeTab === 'emergency' && (
+                    <EmergencyPriorityQueue
+                      riskZones={riskZones}
+                      onFocusZone={handleFocusFeature}
+                    />
+                  )}
+                </div>
 
-            {/* Quick close drawer button */}
-            <button
-              type="button"
-              onClick={() => setPanelOpen(false)}
-              className="absolute top-3.5 right-3.5 p-1 rounded-lg text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/80 transition-colors z-20"
-              title="Close panel to view full map"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
+                {/* Quick close drawer button */}
+                <button
+                  type="button"
+                  onClick={() => setPanelOpen(false)}
+                  className="absolute top-3.5 right-3.5 p-1 rounded-lg text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/80 transition-colors z-20"
+                  title="Close panel to view full map"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+
+            {/* Re-open panel tab if collapsed */}
+            {!panelOpen && (
+              <button
+                type="button"
+                onClick={() => setPanelOpen(true)}
+                className="absolute top-1/2 -translate-y-1/2 left-0 z-[1000] py-3 px-1.5 rounded-r-xl glass-panel bg-white/95 dark:bg-slate-950/95 border-y border-r border-slate-200 dark:border-slate-700 shadow-2xl text-xs font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all hover:pr-2.5 group"
+                title={`Open ${activeTab.toUpperCase()} Panel`}
+              >
+                <ChevronRight className="w-4 h-4 text-amber-500 group-hover:translate-x-0.5 transition-transform" />
+                <span className="[writing-mode:vertical-lr] rotate-180 uppercase text-[10px] tracking-wider py-1 font-bold">
+                  {activeTab}
+                </span>
+              </button>
+            )}
+
+            {/* Main Central Interactive Map — Fills all remaining width & height */}
+            <main className="flex-1 w-full h-full min-w-0 relative overflow-hidden flex">
+              <MapContainer
+                layers={layers}
+                onToggleLayer={toggleLayer}
+                activeRegion={activeRegion}
+                onSelectRegion={handleSelectRegion}
+                riskZones={riskZones}
+                roads={roads}
+                reports={reports}
+                districts={MOCK_DISTRICTS}
+                weatherCells={MOCK_WEATHER_CELLS}
+                onVerifyReport={handleVerifyReport}
+                onRejectReport={handleRejectReport}
+                onSelectFeature={handleFocusFeature}
+                mapCenter={mapCenter}
+                mapZoom={mapZoom}
+                sidebarCollapsed={sidebarCollapsed}
+                panelOpen={panelOpen}
+              />
+            </main>
+          </>
         )}
-
-        {/* Re-open panel tab if collapsed - positioned on middle-left edge so it NEVER overlaps FilterPanel */}
-        {!panelOpen && (
-          <button
-            type="button"
-            onClick={() => setPanelOpen(true)}
-            className="absolute top-1/2 -translate-y-1/2 left-0 z-[1000] py-3 px-1.5 rounded-r-xl glass-panel bg-white/95 dark:bg-slate-950/95 border-y border-r border-slate-200 dark:border-slate-700 shadow-2xl text-xs font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all hover:pr-2.5 group"
-            title={`Open ${activeTab.toUpperCase()} Panel`}
-          >
-            <ChevronRight className="w-4 h-4 text-amber-500 group-hover:translate-x-0.5 transition-transform" />
-            <span className="[writing-mode:vertical-lr] rotate-180 uppercase text-[10px] tracking-wider py-1 font-bold">
-              {activeTab}
-            </span>
-          </button>
-        )}
-
-        {/* Main Central Interactive Map — Fills all remaining width & height */}
-        <main className="flex-1 w-full h-full min-w-0 relative overflow-hidden flex">
-          <MapContainer
-            layers={layers}
-            onToggleLayer={toggleLayer}
-            activeRegion={activeRegion}
-            onSelectRegion={handleSelectRegion}
-            riskZones={riskZones}
-            roads={roads}
-            reports={reports}
-            districts={MOCK_DISTRICTS}
-            weatherCells={MOCK_WEATHER_CELLS}
-            onVerifyReport={handleVerifyReport}
-            onRejectReport={handleRejectReport}
-            onSelectFeature={handleFocusFeature}
-            mapCenter={mapCenter}
-            mapZoom={mapZoom}
-            sidebarCollapsed={sidebarCollapsed}
-            panelOpen={panelOpen}
-          />
-        </main>
       </div>
 
       {/* Floating AI Chatbot Assistant Widget */}
