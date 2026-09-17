@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Menu,
   RefreshCw,
@@ -36,6 +37,44 @@ export default function TopBar({
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const [settingsMenuOpen, setSettingsMenuOpen] = useState(false);
   const { theme, isDark, toggleTheme, setTheme } = useTheme();
+  const langBtnRef = useRef(null);
+  const langDropdownRef = useRef(null);
+  const [langDropdownPos, setLangDropdownPos] = useState({ top: 0, right: 0 });
+
+  // Compute dropdown position from button bounding rect
+  const openLangMenu = useCallback(() => {
+    if (langBtnRef.current) {
+      const rect = langBtnRef.current.getBoundingClientRect();
+      setLangDropdownPos({
+        top: rect.bottom + 4,
+        right: window.innerWidth - rect.right,
+      });
+    }
+    setLangMenuOpen(true);
+    setSettingsMenuOpen(false);
+  }, []);
+
+  // Close language dropdown on outside click or Escape key
+  useEffect(() => {
+    if (!langMenuOpen) return;
+    const handleClickOutside = (e) => {
+      if (
+        langDropdownRef.current && !langDropdownRef.current.contains(e.target) &&
+        langBtnRef.current && !langBtnRef.current.contains(e.target)
+      ) {
+        setLangMenuOpen(false);
+      }
+    };
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') setLangMenuOpen(false);
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [langMenuOpen]);
 
   return (
     <header className="h-16 w-full bg-white/95 dark:bg-slate-950/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800/80 px-4 flex items-center justify-between z-30 select-none transition-colors duration-200">
@@ -146,13 +185,17 @@ export default function TopBar({
           )}
         </button>
 
-        {/* Language Selector Dropdown Scaffolding */}
+        {/* Language Selector Button */}
         <div className="relative">
           <button
+            ref={langBtnRef}
             type="button"
             onClick={() => {
-              setLangMenuOpen(!langMenuOpen);
-              setSettingsMenuOpen(false);
+              if (langMenuOpen) {
+                setLangMenuOpen(false);
+              } else {
+                openLangMenu();
+              }
             }}
             className="flex items-center gap-1 p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-xs font-medium"
             title="Select Language (i18n ready)"
@@ -163,10 +206,22 @@ export default function TopBar({
             </span>
             <ChevronDown className="w-3 h-3 text-slate-400 dark:text-slate-500" />
           </button>
+        </div>
 
-          {langMenuOpen && (
-            <div className="absolute right-0 mt-1 w-36 rounded-xl glass-panel bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 shadow-2xl py-1 z-50">
-              <div className="px-3 py-1 text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase border-b border-slate-100 dark:border-slate-800">
+        {/* Language Dropdown — rendered via portal to escape header stacking context */}
+        {langMenuOpen && createPortal(
+          <div
+            ref={langDropdownRef}
+            className={isDark ? 'dark' : ''}
+            style={{
+              position: 'fixed',
+              top: langDropdownPos.top,
+              right: langDropdownPos.right,
+              zIndex: 99999,
+            }}
+          >
+            <div className="w-52 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-xl py-1">
+              <div className="px-4 py-2 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider border-b border-slate-100 dark:border-slate-800">
                 Languages (NER)
               </div>
               {LANGUAGES.map((l) => (
@@ -177,21 +232,22 @@ export default function TopBar({
                     if (onLanguageChange) onLanguageChange(l.code);
                     setLangMenuOpen(false);
                   }}
-                  className={`w-full px-3 py-1.5 text-left text-xs flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${
+                  className={`w-full px-4 py-2 text-left text-xs flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors ${
                     currentLanguage === l.code
-                      ? 'text-amber-600 dark:text-amber-400 font-bold bg-amber-50 dark:bg-slate-900'
+                      ? 'text-amber-600 dark:text-amber-400 font-bold bg-amber-50 dark:bg-amber-500/10'
                       : 'text-slate-700 dark:text-slate-300'
                   }`}
                 >
                   <span>{l.label}</span>
-                  <span className="text-[10px] text-slate-400 dark:text-slate-500 font-normal">
+                  <span className="text-[11px] text-slate-400 dark:text-slate-500 font-normal">
                     {l.nativeName}
                   </span>
                 </button>
               ))}
             </div>
-          )}
-        </div>
+          </div>,
+          document.body
+        )}
 
         {/* Notification Bell */}
         <IconButton

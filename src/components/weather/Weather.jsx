@@ -139,13 +139,13 @@ export default function Weather() {
               <h1 className="text-base font-extrabold text-slate-900 dark:text-white tracking-tight">
                 WEATHER INTELLIGENCE
               </h1>
-              <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30 uppercase tracking-wide">
+              {/* <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30 uppercase tracking-wide">
                 NER • LIVE & HISTORICAL
-              </span>
+              </span> */}
             </div>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400">
+            {/* <p className="text-[11px] text-slate-500 dark:text-slate-400">
               High-resolution meteorological, Doppler radar, and hydrological sensing across 8 North Eastern states
-            </p>
+            </p> */}
           </div>
         </div>
 
@@ -217,7 +217,7 @@ export default function Weather() {
           />
 
           {/* Quick Context & Landslide Warning Callout */}
-          <div className="p-3.5 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl flex items-start gap-3 text-xs">
+          {/* <div className="p-3.5 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl flex items-start gap-3 text-xs">
             <div className="p-2 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 shrink-0">
               <Shield className="w-4 h-4" />
             </div>
@@ -229,7 +229,7 @@ export default function Weather() {
                 Cumulative rainfall exceeding 70mm/24h combined with topsoil moisture above 35% substantially elevates hill slope shear stress in fragile tectonic corridors. Weather conditions contribute directly to the BhuSachet early warning signal.
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

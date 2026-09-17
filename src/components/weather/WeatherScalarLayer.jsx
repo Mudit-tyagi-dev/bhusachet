@@ -77,9 +77,9 @@ export default function WeatherScalarLayer({ gridData = [], displayMode = 'tempe
               <div className="p-3 max-w-xs text-slate-900 dark:text-slate-100">
                 <div className="flex items-center justify-between pb-1.5 border-b border-slate-200 dark:border-slate-800">
                   <span className="text-[10px] font-bold text-slate-500 uppercase">{pt.state || 'NER Grid Node'}</span>
-                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 font-bold">
+                  {/* <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 font-bold">
                     Open-Meteo
-                  </span>
+                  </span> */}
                 </div>
                 <h4 className="text-sm font-bold mt-1.5 mb-1">{pt.name || `Grid [${pt.lat.toFixed(2)}, ${pt.lon.toFixed(2)}]`}</h4>
                 <div className="p-2.5 rounded bg-slate-100 dark:bg-slate-900 my-2">

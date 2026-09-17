@@ -50,9 +50,6 @@ function getFromCache(key, ttlMs) {
   return null;
 }
 
-/**
- * Cache Helper: Save payload
- */
 function saveToCache(key, data) {
   const entry = { timestamp: Date.now(), data };
   memoryCache.set(key, entry);

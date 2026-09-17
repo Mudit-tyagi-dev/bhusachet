@@ -96,7 +96,7 @@ export default function RoadsPanel({ roads, onFocusRoad, isRefreshing = false })
             >
               {districts.map((d) => (
                 <option key={d} value={d}>
-                  {d === 'ALL' ? 'All Districts (NER Pilot)' : d}
+                  {d === 'ALL' ? 'All Districts (NER)' : d}
                 </option>
               ))}
             </select>

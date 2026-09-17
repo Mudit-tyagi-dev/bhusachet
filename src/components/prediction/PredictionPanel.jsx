@@ -63,7 +63,7 @@ export default function PredictionPanel({ riskZones, onFocusZone, isRefreshing =
                   : 'bg-slate-200 dark:bg-slate-800/80 text-slate-700 dark:text-slate-400 hover:text-slate-950 dark:hover:text-slate-200'
               }`}
             >
-              {st === 'ALL' ? 'All Pilot States' : st}
+              {st === 'ALL' ? 'All NER States' : st}
             </button>
           ))}
         </div>

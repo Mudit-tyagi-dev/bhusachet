@@ -9,7 +9,7 @@ export function useMapLayers() {
     boundaries: true,
   });
 
-  const [activeRegion, setActiveRegion] = useState('ALL'); // 'ALL' | 'SIKKIM' | 'MEGHALAYA'
+  const [activeRegion, setActiveRegion] = useState('all'); // 'all' | 'arunachal-pradesh' | 'assam' | 'manipur' | 'meghalaya' | 'mizoram' | 'nagaland' | 'sikkim' | 'tripura'
   const [selectedFeature, setSelectedFeature] = useState(null);
 
   const toggleLayer = (layerName) => {

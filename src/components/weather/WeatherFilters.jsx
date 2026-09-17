@@ -46,11 +46,11 @@ export default function WeatherFilters({
       {/* LEFT: Geographic Filter Selectors */}
       <div className="flex flex-wrap items-center gap-2 text-xs">
         {/* Region Tag */}
-        <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-semibold text-slate-700 dark:text-slate-300">
+        {/* <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-semibold text-slate-700 dark:text-slate-300">
           <Globe className="w-3.5 h-3.5 text-amber-500" />
           <span className="text-[11px] text-slate-500 dark:text-slate-400">REGION:</span>
           <span>North East Region (NER)</span>
-        </div>
+        </div> */}
 
         {/* State Dropdown */}
         <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-2.5 py-1">

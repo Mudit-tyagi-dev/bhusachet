@@ -139,7 +139,7 @@ export default function FilterPanel({ layers, onToggleLayer, activeCounts = {} }
             {/* Quick Helper Note */}
             <div className="pt-2 mt-1 border-t border-slate-200 dark:border-slate-800/80 px-2 flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
               <span>Multi-layer fusion active</span>
-              <span className="text-amber-600 dark:text-amber-400 font-mono">Pilot v1.2</span>
+              <span className="text-amber-600 dark:text-amber-400 font-mono">NER v1.2</span>
             </div>
           </div>
         )}
