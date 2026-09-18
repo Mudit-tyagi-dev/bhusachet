@@ -247,7 +247,7 @@ export default function Shell() {
       </div>
 
       {/* Floating AI Chatbot Assistant Widget */}
-      {/* <ChatbotWidget /> */}
+      <ChatbotWidget />
     </div>
   );
 }
